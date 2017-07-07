@@ -1,3 +1,26 @@
+/* MIT License
+ *
+ * Copyright (c) hockeyhurd 2017
+
+ * Permission is hereby granted, free of charge, to any person obtaining a copy
+ * of this software and associated documentation files (the "Software"), to deal
+ * in the Software without restriction, including without limitation the rights
+ * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+ * copies of the Software, and to permit persons to whom the Software is
+ * furnished to do so, subject to the following conditions:
+
+ * The above copyright notice and this permission notice shall be included in all
+ * copies or substantial portions of the Software.
+
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+ * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+ * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+ * SOFTWARE.
+ */
+
 package com.hockeyhurd.copyrightappender;
 
 import com.hockeyhurd.copyrightappender.io.FileUtil;
@@ -18,24 +41,25 @@ public final class CopyrightAppender {
 
 	private final int NUM_TRHEADS;
 	private final String copyRightFile;
-	private final String folder;
+	private final String folderPath;
 	private Thread[] threads;
 
 	private static boolean running;
 
-	private CopyrightAppender(int numThreads, String copyRightFile, String folder) {
+	private CopyrightAppender(int numThreads, String copyRightFile, String folderPath) {
 		this.NUM_TRHEADS = numThreads;
 		this.copyRightFile = copyRightFile;
-		this.folder = folder;
+		this.folderPath = folderPath;
 	}
 
 	private synchronized void start() {
-		if (folder == null || folder.length() < 3)
+		if (folderPath == null || folderPath.length() < 3)
 			return;
 
 		running = true;
 
-		final List<File> resultList = FileUtil.getFiles(folder);
+		// final List<File> resultList = FileUtil.getFiles(folderPath);
+		final List<File> resultList = FileUtil.getFiles(new File(folderPath));
 
 		if (resultList != null && !resultList.isEmpty()) {
 			FormattedObject[] copyrightInfo;

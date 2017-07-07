@@ -1,3 +1,26 @@
+/* MIT License
+ *
+ * Copyright (c) hockeyhurd 2017
+
+ * Permission is hereby granted, free of charge, to any person obtaining a copy
+ * of this software and associated documentation files (the "Software"), to deal
+ * in the Software without restriction, including without limitation the rights
+ * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+ * copies of the Software, and to permit persons to whom the Software is
+ * furnished to do so, subject to the following conditions:
+
+ * The above copyright notice and this permission notice shall be included in all
+ * copies or substantial portions of the Software.
+
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+ * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+ * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+ * SOFTWARE.
+ */
+
 package com.hockeyhurd.copyrightappender.io;
 
 import java.io.BufferedReader;
@@ -180,10 +203,13 @@ public class FileUtil {
 
 	/**
 	 * A recursive function allows getting all files in a given directory.
-	 * 
+	 *
+	 * @deprecated as of 7/7/17 use overloaded method with File object.
+	 *
 	 * @param path path to check
 	 * @return list of files if successful else returns null.
 	 */
+	@Deprecated
 	public static List<File> getFiles(String path) {
 		
 		// get file from path.
@@ -227,6 +253,29 @@ public class FileUtil {
 		}
 
 		return files;
+	}
+
+	public static List<File> getFiles(File file) {
+		if (file == null || (file.isFile() && !exists(file)))
+			return null;
+
+		final List<File> files = new ArrayList<File>(0x40);
+
+		recursivelyGetFiles(file, files);
+
+		return files;
+	}
+
+	private static void recursivelyGetFiles(File file, List<File> fileList) {
+		if (file.isFile())
+			fileList.add(file);
+
+		else {
+			System.out.println(file.listFiles() == null);
+			for (File f : file.listFiles()) {
+				recursivelyGetFiles(f, fileList);
+			}
+		}
 	}
 
 }

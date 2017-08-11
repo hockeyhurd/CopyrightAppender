@@ -122,15 +122,16 @@ public final class CopyrightAppender {
 		String copyrightFile;
 
 		switch (args.length) {
-			/*case 1:
-				copyrightFile = args[0];
-				break;*/
+			case 1:
+				copyrightFile = "copyright.txt";
+				folder = args[0];
+				break;
 			case 2:
 				copyrightFile = args[0];
 				folder = args[1];
 				break;
 			default:
-				System.err.println("Error! Invalid arg length!");
+				System.err.printf("Error! Invalid arg length of \'%d\'! Format is <(optional) copyright file> <src folder>!%s", args.length, System.lineSeparator());
 				return;
 		}
 
